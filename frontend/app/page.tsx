@@ -1,8 +1,8 @@
-import { Suspense } from "react"
-import UploadForm from "@/components/upload-form"
-import { Card, CardContent } from "@/components/ui/card"
-import { FileText, Github, FileCode, Zap } from "lucide-react"
-import Link from "next/link"
+import { Suspense } from "react";
+import UploadForm from "@/components/upload-form";
+import { Card, CardContent } from "@/components/ui/card";
+import { FileText, Github, FileCode, Zap } from "lucide-react";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -10,18 +10,21 @@ export default function Home() {
       <div className="container mx-auto py-12 px-4">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-500">
-            AutoPDFParse
+            Try AutoPDFParse out
           </h1>
           <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-            A powerful testing interface for the{" "}
+            A simple interface to test the{" "}
             <Link
               href="https://github.com/ChidiRnweke/AutoPDFParse"
               target="_blank"
               className="text-blue-600 hover:text-blue-800 font-medium underline underline-offset-2"
             >
-              AutoPDFParse Python package
+              AutoPDFParse.
             </Link>{" "}
-            that extracts and analyzes text from PDF documents with AI precision.
+            Upload your PDFs and see how the models handle preprocessing and
+            extraction. This tool is designed to help you understand the
+            capabilities of AutoPDFParse and how it can be integrated into your
+            projects.
           </p>
         </div>
 
@@ -31,9 +34,13 @@ export default function Home() {
               <div className="bg-purple-100 p-3 rounded-full mb-4">
                 <FileText className="h-6 w-6 text-purple-600" />
               </div>
-              <h3 className="text-lg font-semibold mb-2">Smart PDF Analysis</h3>
+              <h3 className="text-lg font-semibold mb-2">
+                Two-Step Processing
+              </h3>
               <p className="text-slate-600">
-                Automatically detects layout-dependent content and extracts text with context awareness.
+                First detects if a page contains complex data (tables, images),
+                then processes accordingly - simple extraction or detailed
+                description.
               </p>
             </CardContent>
           </Card>
@@ -43,9 +50,12 @@ export default function Home() {
               <div className="bg-blue-100 p-3 rounded-full mb-4">
                 <FileCode className="h-6 w-6 text-blue-600" />
               </div>
-              <h3 className="text-lg font-semibold mb-2">Python-Powered</h3>
+              <h3 className="text-lg font-semibold mb-2">
+                Drop-in Replacement
+              </h3>
               <p className="text-slate-600">
-                Built on a robust Python foundation with advanced NLP capabilities for accurate text extraction.
+                Easily replaces standard PDF packages with minimal code changes.
+                Perfect for enhancing existing workflows with AI capabilities.
               </p>
             </CardContent>
           </Card>
@@ -55,9 +65,12 @@ export default function Home() {
               <div className="bg-indigo-100 p-3 rounded-full mb-4">
                 <Zap className="h-6 w-6 text-indigo-600" />
               </div>
-              <h3 className="text-lg font-semibold mb-2">AI-Enhanced</h3>
+              <h3 className="text-lg font-semibold mb-2">
+                RAG-Ready & Cost-Effective
+              </h3>
               <p className="text-slate-600">
-                Leverages cutting-edge AI models to understand document structure and content relationships.
+                Optimized for RAG workflows with cost-efficient processing. Uses
+                smaller models where possible, only scaling up when needed.
               </p>
             </CardContent>
           </Card>
@@ -76,9 +89,12 @@ export default function Home() {
 
         <Card className="mb-8 border-t-4 border-t-purple-500">
           <CardContent className="pt-6">
-            <h2 className="text-2xl font-bold mb-4 text-center">Try AutoPDFParse</h2>
+            <h2 className="text-2xl font-bold mb-4 text-center">
+              Test Your PDFs
+            </h2>
             <p className="text-center mb-6 text-slate-600">
-              Upload a PDF document and select an AI model to see how AutoPDFParse extracts and analyzes text content.
+              Upload any PDF document and compare how different AI models
+              process its content - no installation required.
             </p>
             <Suspense fallback={<div>Loading form...</div>}>
               <UploadForm />
@@ -87,5 +103,5 @@ export default function Home() {
         </Card>
       </div>
     </main>
-  )
+  );
 }

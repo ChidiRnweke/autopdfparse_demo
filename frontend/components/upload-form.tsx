@@ -35,6 +35,12 @@ const providers = [
   },
 ];
 
+type PDFData = {
+  pageNumber: number;
+  extractedText: string;
+  isLayoutDependent: boolean;
+};
+
 const modelsByProvider = {
   anthropic: {
     layout: [
@@ -85,6 +91,7 @@ export default function UploadForm() {
   const [isProcessed, setIsProcessed] = useState(false);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [pdfData, setPdfData] = useState<PDFData[]>([]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -173,6 +180,36 @@ export default function UploadForm() {
       return;
 
     setIsUploading(true);
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("api_key", apiKey);
+    formData.append("layout_model", layoutModel);
+    formData.append("description_model", descriptionModel);
+
+    const results = await fetch(`/api/${provider}/parse`, {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!results.ok) {
+      setIsUploading(false);
+      alert("Error processing the file. Please try again.");
+      return;
+    }
+    const data = await results.json();
+    setPdfData(
+      data.pages.map(
+        (page: {
+          page_number: number;
+          content: string;
+          _from_llm: boolean;
+        }) => ({
+          pageNumber: page.page_number,
+          extractedText: page.content,
+          isLayoutDependent: page._from_llm,
+        })
+      )
+    );
 
     // Simulate processing delay
     setTimeout(() => {
@@ -431,7 +468,7 @@ export default function UploadForm() {
 
       {isProcessed && pdfUrl && (
         <div id="results" className="mt-8">
-          <PDFViewer pdfUrl={pdfUrl} />
+          <PDFViewer pdfUrl={pdfUrl} pdfData={pdfData} />
         </div>
       )}
     </div>

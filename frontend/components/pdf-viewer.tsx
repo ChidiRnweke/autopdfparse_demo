@@ -7,47 +7,18 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { ChevronLeft, ChevronRight, FileText, Layers } from "lucide-react";
 
-// Mock data for extracted text and layout status
-const mockPages = [
-  {
-    pageNumber: 1,
-    isLayoutDependent: true,
-    extractedText:
-      "This is the first page of the document. It contains important information about the project scope and objectives. The layout of this page is considered dependent, meaning the spatial arrangement of text and elements is significant for understanding the content.",
-  },
-  {
-    pageNumber: 2,
-    isLayoutDependent: false,
-    extractedText:
-      "Page 2 contains a simple text description without any complex layout elements. This page is not layout dependent as the text flows naturally and can be understood without considering the spatial arrangement.",
-  },
-  {
-    pageNumber: 3,
-    isLayoutDependent: true,
-    extractedText:
-      "The third page contains a data table with quarterly financial results. The columns represent Q1, Q2, Q3, and Q4, while rows show different financial metrics. Due to this tabular structure, this page is considered layout dependent.",
-  },
-  {
-    pageNumber: 4,
-    isLayoutDependent: false,
-    extractedText:
-      "This page contains the conclusion of the document. It summarizes the key points discussed in the previous pages and provides recommendations for next steps. The content is primarily textual and not dependent on specific layout.",
-  },
-  {
-    pageNumber: 5,
-    isLayoutDependent: true,
-    extractedText:
-      "The final page contains contact information arranged in a specific format, along with a complex diagram illustrating the project workflow. The spatial arrangement of these elements is crucial for proper interpretation.",
-  },
-];
-
 interface PDFViewerProps {
   pdfUrl: string;
+  pdfData: {
+    pageNumber: number;
+    extractedText: string;
+    isLayoutDependent: boolean;
+  }[];
 }
 
-export default function PDFViewer({ pdfUrl }: PDFViewerProps) {
+export default function PDFViewer({ pdfUrl, pdfData }: PDFViewerProps) {
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(mockPages.length);
+  const [totalPages] = useState(pdfData.length);
   const [viewMode, setViewMode] = useState<"side-by-side" | "tabbed">(
     "side-by-side"
   );
@@ -66,7 +37,7 @@ export default function PDFViewer({ pdfUrl }: PDFViewerProps) {
 
   // Get current page data
   const currentPageData =
-    mockPages.find((p) => p.pageNumber === currentPage) || mockPages[0];
+    pdfData.find((p) => p.pageNumber === currentPage) || pdfData[0];
 
   // Determine screen size for responsive layout
   const [isMobile, setIsMobile] = useState(false);
