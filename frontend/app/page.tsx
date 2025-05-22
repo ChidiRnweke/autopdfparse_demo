@@ -13,7 +13,8 @@ export default function Home() {
             Try AutoPDFParse out
           </h1>
           <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-            A simple interface to test the{" "}
+            Extract content from PDFs that have text, images and tables with
+            ease using{" "}
             <Link
               href="https://github.com/ChidiRnweke/AutoPDFParse"
               target="_blank"
@@ -21,10 +22,6 @@ export default function Home() {
             >
               AutoPDFParse.
             </Link>{" "}
-            Upload your PDFs and see how the models handle preprocessing and
-            extraction. This tool is designed to help you understand the
-            capabilities of AutoPDFParse and how it can be integrated into your
-            projects.
           </p>
         </div>
 
@@ -51,11 +48,12 @@ export default function Home() {
                 <FileCode className="h-6 w-6 text-blue-600" />
               </div>
               <h3 className="text-lg font-semibold mb-2">
-                Drop-in Replacement
+                Drop-in Replacement for your favorite PDF to text library
               </h3>
               <p className="text-slate-600">
                 Easily replaces standard PDF packages with minimal code changes.
-                Perfect for enhancing existing workflows with AI capabilities.
+                Perfect for enhancing existing workflows with a stronger
+                baseline.
               </p>
             </CardContent>
           </Card>

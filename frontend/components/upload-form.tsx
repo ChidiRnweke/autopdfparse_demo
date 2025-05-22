@@ -4,6 +4,7 @@ import type React from "react";
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -21,17 +22,17 @@ const providers = [
   {
     id: "anthropic",
     name: "Anthropic",
-    icon: "✨", // Simple icon representation
+    iconSrc: "/anthropic.svg",
   },
   {
     id: "gemini",
     name: "Google Gemini",
-    icon: "🔍",
+    iconSrc: "/google.svg",
   },
   {
     id: "openai",
     name: "OpenAI",
-    icon: "🧠",
+    iconSrc: "/openai.svg",
   },
 ];
 
@@ -44,12 +45,16 @@ type PDFData = {
 const modelsByProvider = {
   anthropic: {
     layout: [
-      { id: "claude-3-haiku", name: "Claude 3 Haiku", default: true },
-      { id: "claude-3-7-sonnet", name: "Claude 3.7 Sonnet" },
+      { id: "claude-3-haiku-latest", name: "Claude 3 Haiku", default: true },
+      { id: "claude-3-7-sonnet-latest", name: "Claude 3.7 Sonnet" },
     ],
     description: [
-      { id: "claude-3-7-sonnet", name: "Claude 3.7 Sonnet", default: true },
-      { id: "claude-3-haiku", name: "Claude 3 Haiku" },
+      {
+        id: "claude-3.7-sonnet-latest",
+        name: "Claude 3.7 Sonnet",
+        default: true,
+      },
+      { id: "claude-3-5-haiku-latest", name: "Claude 3 Haiku" },
     ],
   },
   gemini: {
@@ -329,7 +334,14 @@ export default function UploadForm() {
                   `}
                 >
                   <div className="flex items-center space-x-2">
-                    <div className="text-xl">{p.icon}</div>
+                    <div className="w-6 h-6 flex items-center justify-center">
+                      <Image
+                        src={p.iconSrc}
+                        alt={`${p.name} logo`}
+                        width={24}
+                        height={24}
+                      />
+                    </div>
                     <div>
                       <h3 className="font-medium">{p.name}</h3>
                     </div>
