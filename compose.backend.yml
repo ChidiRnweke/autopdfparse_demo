@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   autopdfparse-backend:
-    image: ghcr.io/chidirnweke/autopdfparse-backend:latest
+    image: ghcr.io/chidirnweke/autopdfparse_demo:latest
     container_name: autopdfparse_backend
     healthcheck:
       test:
