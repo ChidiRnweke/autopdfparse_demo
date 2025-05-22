@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Badge } from "@/components/ui/badge"
-import { ChevronLeft, ChevronRight, FileText, Layers } from "lucide-react"
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
+import { ChevronLeft, ChevronRight, FileText, Layers } from "lucide-react";
 
 // Mock data for extracted text and layout status
 const mockPages = [
@@ -39,61 +39,66 @@ const mockPages = [
     extractedText:
       "The final page contains contact information arranged in a specific format, along with a complex diagram illustrating the project workflow. The spatial arrangement of these elements is crucial for proper interpretation.",
   },
-]
+];
 
 interface PDFViewerProps {
-  pdfUrl: string
+  pdfUrl: string;
 }
 
 export default function PDFViewer({ pdfUrl }: PDFViewerProps) {
-  const [currentPage, setCurrentPage] = useState(1)
-  const [totalPages, setTotalPages] = useState(mockPages.length)
-  const [viewMode, setViewMode] = useState<"side-by-side" | "tabbed">("side-by-side")
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(mockPages.length);
+  const [viewMode, setViewMode] = useState<"side-by-side" | "tabbed">(
+    "side-by-side"
+  );
 
   const handlePrevPage = () => {
     if (currentPage > 1) {
-      setCurrentPage(currentPage - 1)
+      setCurrentPage(currentPage - 1);
     }
-  }
+  };
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1)
+      setCurrentPage(currentPage + 1);
     }
-  }
+  };
 
   // Get current page data
-  const currentPageData = mockPages.find((p) => p.pageNumber === currentPage) || mockPages[0]
+  const currentPageData =
+    mockPages.find((p) => p.pageNumber === currentPage) || mockPages[0];
 
   // Determine screen size for responsive layout
-  const [isMobile, setIsMobile] = useState(false)
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const checkScreenSize = () => {
-      setIsMobile(window.innerWidth < 768)
-      setViewMode(window.innerWidth < 768 ? "tabbed" : "side-by-side")
-    }
+      setIsMobile(window.innerWidth < 768);
+      setViewMode(window.innerWidth < 768 ? "tabbed" : "side-by-side");
+    };
 
-    checkScreenSize()
-    window.addEventListener("resize", checkScreenSize)
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
 
     return () => {
-      window.removeEventListener("resize", checkScreenSize)
-    }
-  }, [])
+      window.removeEventListener("resize", checkScreenSize);
+    };
+  }, []);
 
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">PDF Analysis Results</h2>
-
         {!isMobile && (
           <div className="flex items-center space-x-2">
             <Button
               variant="outline"
               size="sm"
               onClick={() => setViewMode("side-by-side")}
-              className={viewMode === "side-by-side" ? "bg-primary text-primary-foreground" : ""}
+              className={
+                viewMode === "side-by-side"
+                  ? "bg-primary text-primary-foreground"
+                  : ""
+              }
             >
               <Layers className="h-4 w-4 mr-1" />
               Side by Side
@@ -102,13 +107,40 @@ export default function PDFViewer({ pdfUrl }: PDFViewerProps) {
               variant="outline"
               size="sm"
               onClick={() => setViewMode("tabbed")}
-              className={viewMode === "tabbed" ? "bg-primary text-primary-foreground" : ""}
+              className={
+                viewMode === "tabbed"
+                  ? "bg-primary text-primary-foreground"
+                  : ""
+              }
             >
               <FileText className="h-4 w-4 mr-1" />
               Tabbed View
             </Button>
           </div>
         )}
+      </div>
+      <div className="flex justify-between items-center mt-4">
+        <Button
+          onClick={handlePrevPage}
+          disabled={currentPage === 1}
+          variant="outline"
+        >
+          <ChevronLeft className="h-4 w-4 mr-1" />
+          Previous
+        </Button>
+
+        <span className="text-sm">
+          Page {currentPage} of {totalPages}
+        </span>
+
+        <Button
+          onClick={handleNextPage}
+          disabled={currentPage === totalPages}
+          variant="outline"
+        >
+          Next
+          <ChevronRight className="h-4 w-4 ml-1" />
+        </Button>
       </div>
 
       {viewMode === "tabbed" ? (
@@ -134,8 +166,17 @@ export default function PDFViewer({ pdfUrl }: PDFViewerProps) {
             <Card>
               <CardContent className="p-4">
                 <div className="mb-2 flex items-center">
-                  <Badge variant={currentPageData.isLayoutDependent ? "destructive" : "success"} className="mr-2">
-                    {currentPageData.isLayoutDependent ? "Layout Dependent" : "Layout Independent"}
+                  <Badge
+                    variant={
+                      currentPageData.isLayoutDependent
+                        ? "destructive"
+                        : "success"
+                    }
+                    className="mr-2"
+                  >
+                    {currentPageData.isLayoutDependent
+                      ? "Layout Dependent"
+                      : "Layout Independent"}
                   </Badge>
                 </div>
                 <div className="bg-gray-50 p-4 rounded-md min-h-[400px]">
@@ -164,8 +205,16 @@ export default function PDFViewer({ pdfUrl }: PDFViewerProps) {
             <CardContent className="p-4">
               <div className="flex justify-between items-center mb-2">
                 <h3 className="text-lg font-medium">Extracted Text</h3>
-                <Badge variant={currentPageData.isLayoutDependent ? "destructive" : "success"}>
-                  {currentPageData.isLayoutDependent ? "Layout Dependent" : "Layout Independent"}
+                <Badge
+                  variant={
+                    currentPageData.isLayoutDependent
+                      ? "destructive"
+                      : "success"
+                  }
+                >
+                  {currentPageData.isLayoutDependent
+                    ? "Layout Dependent"
+                    : "Layout Independent"}
                 </Badge>
               </div>
               <div className="bg-gray-50 p-4 rounded-md min-h-[400px]">
@@ -175,22 +224,6 @@ export default function PDFViewer({ pdfUrl }: PDFViewerProps) {
           </Card>
         </div>
       )}
-
-      <div className="flex justify-between items-center mt-4">
-        <Button onClick={handlePrevPage} disabled={currentPage === 1} variant="outline">
-          <ChevronLeft className="h-4 w-4 mr-1" />
-          Previous
-        </Button>
-
-        <span className="text-sm">
-          Page {currentPage} of {totalPages}
-        </span>
-
-        <Button onClick={handleNextPage} disabled={currentPage === totalPages} variant="outline">
-          Next
-          <ChevronRight className="h-4 w-4 ml-1" />
-        </Button>
-      </div>
     </div>
-  )
+  );
 }

@@ -14,7 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Loader2, Upload } from "lucide-react";
+import { Loader2, Upload, FileIcon, X } from "lucide-react";
 import PDFViewer from "@/components/pdf-viewer";
 
 const providers = [
@@ -84,11 +84,43 @@ export default function UploadForm() {
   const [isUploading, setIsUploading] = useState(false);
   const [isProcessed, setIsProcessed] = useState(false);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setFile(e.target.files[0]);
       setPdfUrl(URL.createObjectURL(e.target.files[0]));
+    }
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      const droppedFile = e.dataTransfer.files[0];
+      if (droppedFile.type === "application/pdf") {
+        setFile(droppedFile);
+        setPdfUrl(URL.createObjectURL(droppedFile));
+      }
+    }
+  };
+
+  const handleRemoveFile = () => {
+    setFile(null);
+    if (pdfUrl) {
+      URL.revokeObjectURL(pdfUrl);
+      setPdfUrl(null);
     }
   };
 
@@ -155,19 +187,76 @@ export default function UploadForm() {
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-5">
           <div>
-            <Label htmlFor="file-upload">Upload PDF Document</Label>
-            <div className="mt-1 flex items-center gap-4">
-              <Input
-                id="file-upload"
-                type="file"
-                accept=".pdf"
-                onChange={handleFileChange}
-                className="flex-1"
-              />
-              {file && (
-                <p className="text-sm text-gray-500">
-                  {file.name} ({Math.round(file.size / 1024)} KB)
-                </p>
+            <Label
+              htmlFor="file-upload"
+              className="text-base font-medium mb-1 block"
+            >
+              Upload PDF Document
+            </Label>
+
+            <div
+              className={`
+                border-2 border-dashed rounded-lg transition-all
+                ${
+                  isDragging
+                    ? "border-primary bg-primary/5"
+                    : file
+                    ? "border-green-300 bg-green-50"
+                    : "border-gray-300 hover:border-gray-400"
+                }
+                ${file ? "p-3" : "p-8"}
+              `}
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+            >
+              {!file ? (
+                <div className="flex flex-col items-center justify-center text-center">
+                  <Upload className="h-10 w-10 text-gray-400 mb-2" />
+                  <p className="text-sm font-medium mb-1">
+                    Drag and drop your PDF here
+                  </p>
+                  <p className="text-xs text-gray-500 mb-3">PDF files only</p>
+
+                  <Input
+                    id="file-upload"
+                    type="file"
+                    accept=".pdf"
+                    onChange={handleFileChange}
+                    className="hidden"
+                  />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() =>
+                      document.getElementById("file-upload")?.click()
+                    }
+                  >
+                    Browse Files
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex items-center">
+                  <div className="flex-shrink-0 bg-white p-2 rounded border border-gray-200 mr-3">
+                    <FileIcon className="h-8 w-8 text-red-500" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h4 className="text-sm font-medium text-gray-900 truncate">
+                      {file.name}
+                    </h4>
+                    <p className="text-xs text-gray-500">
+                      {Math.round(file.size / 1024)} KB • PDF Document
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    className="flex-shrink-0 ml-2 text-gray-500 hover:text-gray-700"
+                    onClick={handleRemoveFile}
+                  >
+                    <X className="h-5 w-5" />
+                  </button>
+                </div>
               )}
             </div>
           </div>
@@ -342,7 +431,6 @@ export default function UploadForm() {
 
       {isProcessed && pdfUrl && (
         <div id="results" className="mt-8">
-          <h2 className="text-2xl font-bold">AutoPDFParse Results</h2>
           <PDFViewer pdfUrl={pdfUrl} />
         </div>
       )}
