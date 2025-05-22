@@ -153,7 +153,7 @@ export default function UploadForm() {
   return (
     <div>
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="space-y-6">
+        <div className="space-y-5">
           <div>
             <Label htmlFor="file-upload">Upload PDF Document</Label>
             <div className="mt-1 flex items-center gap-4">
@@ -184,9 +184,9 @@ export default function UploadForm() {
             />
           </div>
 
-          <div className="space-y-3">
-            <Label htmlFor="provider" className="text-lg font-medium">
-              Select AI Provider
+          <div className="space-y-2">
+            <Label htmlFor="provider" className="font-medium">
+              Select Model Provider
             </Label>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               {providers.map((p) => (
@@ -194,7 +194,7 @@ export default function UploadForm() {
                   key={p.id}
                   onClick={() => handleProviderChange(p.id)}
                   className={`
-                    p-4 rounded-lg border-2 transition-all cursor-pointer
+                    p-3 rounded-lg border-2 transition-all cursor-pointer
                     ${
                       provider === p.id
                         ? "border-primary bg-primary/5 shadow-md"
@@ -202,8 +202,8 @@ export default function UploadForm() {
                     }
                   `}
                 >
-                  <div className="flex items-center space-x-3">
-                    <div className="text-2xl">{p.icon}</div>
+                  <div className="flex items-center space-x-2">
+                    <div className="text-xl">{p.icon}</div>
                     <div>
                       <h3 className="font-medium">{p.name}</h3>
                     </div>
@@ -214,29 +214,33 @@ export default function UploadForm() {
           </div>
 
           {provider && (
-            <div className="space-y-4 rounded-lg border border-gray-200 p-4 bg-gray-50">
-              <h3 className="font-medium text-lg">Model Selection</h3>
-              <p className="text-sm text-gray-500 mb-4">
-                Select models for different aspects of PDF processing
-              </p>
+            <div className="rounded-lg border border-gray-200 p-3 bg-gray-50">
+              <div className="flex justify-between items-center mb-2">
+                <h3 className="font-medium">Model Selection</h3>
+                <p className="text-xs text-gray-500">
+                  Select models for different processing tasks
+                </p>
+              </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <Label
-                    htmlFor="layout-model"
-                    className="flex items-center gap-2"
-                  >
-                    Layout Model
-                    <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
-                      Lower Cost Option
-                    </span>
-                  </Label>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <Label
+                      htmlFor="layout-model"
+                      className="text-sm font-medium flex items-center gap-1.5"
+                    >
+                      Layout Model
+                      <span className="inline-flex items-center rounded-full bg-blue-100 px-2 py-0.5 text-xs text-blue-800">
+                        Easier task
+                      </span>
+                    </Label>
+                  </div>
                   <Select
                     value={layoutModel}
                     onValueChange={setLayoutModel}
                     disabled={!provider}
                   >
-                    <SelectTrigger id="layout-model" className="mt-1 bg-white">
+                    <SelectTrigger id="layout-model" className="bg-white h-9">
                       <SelectValue
                         placeholder={
                           provider
@@ -257,20 +261,22 @@ export default function UploadForm() {
                     </SelectContent>
                   </Select>
                   <p className="text-xs text-gray-500 mt-1">
-                    For document structure analysis and visual layout extraction
+                    For document structure and layout extraction
                   </p>
                 </div>
 
-                <div className="space-y-2">
-                  <Label
-                    htmlFor="description-model"
-                    className="flex items-center gap-2"
-                  >
-                    Description Model
-                    <span className="inline-flex items-center rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-medium text-amber-800">
-                      Advanced Understanding
-                    </span>
-                  </Label>
+                <div>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <Label
+                      htmlFor="description-model"
+                      className="text-sm font-medium flex items-center gap-1.5"
+                    >
+                      Description Model
+                      <span className="inline-flex items-center rounded-full bg-amber-100 px-2 py-0.5 text-xs text-amber-800">
+                        Harder task
+                      </span>
+                    </Label>
+                  </div>
                   <Select
                     value={descriptionModel}
                     onValueChange={setDescriptionModel}
@@ -278,7 +284,7 @@ export default function UploadForm() {
                   >
                     <SelectTrigger
                       id="description-model"
-                      className="mt-1 bg-white"
+                      className="bg-white h-9"
                     >
                       <SelectValue
                         placeholder={
@@ -300,7 +306,7 @@ export default function UploadForm() {
                     </SelectContent>
                   </Select>
                   <p className="text-xs text-gray-500 mt-1">
-                    For detailed content analysis and semantic understanding
+                    For content analysis and understanding
                   </p>
                 </div>
               </div>
@@ -310,7 +316,7 @@ export default function UploadForm() {
 
         <Button
           type="submit"
-          className="w-full mt-6"
+          className="w-full mt-5"
           disabled={
             !file ||
             !apiKey ||
