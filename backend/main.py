@@ -26,19 +26,19 @@ async def parse(
     Parse a PDF file using the specified model.
     """
 
-    if provider == "openai":
+    if provider.lower() == "openai":
         parser = OpenAIParser.get_parser(
             api_key=api_key,
             description_model=description_model,
             visual_model=layout_model,
         )
-    elif provider == "anthropic":
+    elif provider.lower() == "anthropic":
         parser = AnthropicParser.get_parser(
             api_key=api_key,
             description_model=description_model,
             visual_model=layout_model,
         )
-    elif provider == "gemini":
+    elif provider.lower() == "gemini":
         parser = GeminiParser.get_parser(
             api_key=api_key,
             description_model=description_model,
@@ -47,7 +47,7 @@ async def parse(
     else:
         raise HTTPException(
             status_code=400,
-            detail="Invalid layout model. Supported models are: openai, anthropic, gemini.",
+            detail="Invalid provider. Supported provider are: openai, anthropic, gemini.",
         )
     parser = cast(PDFParser, parser)
     try:
