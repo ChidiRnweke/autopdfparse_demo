@@ -5,7 +5,16 @@ services:
     image: ghcr.io/chidirnweke/autopdfparse-backend:latest
     container_name: autopdfparse_backend
     healthcheck:
-      test: curl -f http://localhost:8000/api/health || exit 1
+      test:
+        [
+          "CMD",
+          "curl",
+          "-f",
+          "http://localhost:8000/api/health",
+          "||",
+          "exit",
+          "1",
+        ]
       interval: 600s
       timeout: 5s
       retries: 3
