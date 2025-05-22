@@ -243,8 +243,8 @@ export default function UploadForm() {
                   isDragging
                     ? "border-primary bg-primary/5"
                     : file
-                    ? "border-green-300 bg-green-50"
-                    : "border-gray-300 hover:border-gray-400"
+                    ? "border-green-300 bg-green-50 dark:border-green-700 dark:bg-green-950/30"
+                    : "border-gray-300 hover:border-gray-400 dark:border-gray-700 dark:hover:border-gray-600"
                 }
                 ${file ? "p-3" : "p-8"}
               `}
@@ -254,11 +254,13 @@ export default function UploadForm() {
             >
               {!file ? (
                 <div className="flex flex-col items-center justify-center text-center">
-                  <Upload className="h-10 w-10 text-gray-400 mb-2" />
+                  <Upload className="h-10 w-10 text-gray-400 dark:text-gray-500 mb-2" />
                   <p className="text-sm font-medium mb-1">
                     Drag and drop your PDF here
                   </p>
-                  <p className="text-xs text-gray-500 mb-3">PDF files only</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">
+                    PDF files only
+                  </p>
 
                   <Input
                     id="file-upload"
@@ -280,20 +282,20 @@ export default function UploadForm() {
                 </div>
               ) : (
                 <div className="flex items-center">
-                  <div className="flex-shrink-0 bg-white p-2 rounded border border-gray-200 mr-3">
+                  <div className="flex-shrink-0 bg-white dark:bg-slate-800 p-2 rounded border border-gray-200 dark:border-gray-700 mr-3">
                     <FileIcon className="h-8 w-8 text-red-500" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h4 className="text-sm font-medium text-gray-900 truncate">
+                    <h4 className="text-sm font-medium text-gray-900 dark:text-gray-200 truncate">
                       {file.name}
                     </h4>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
                       {Math.round(file.size / 1024)} KB • PDF Document
                     </p>
                   </div>
                   <button
                     type="button"
-                    className="flex-shrink-0 ml-2 text-gray-500 hover:text-gray-700"
+                    className="flex-shrink-0 ml-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
                     onClick={handleRemoveFile}
                   >
                     <X className="h-5 w-5" />
@@ -328,8 +330,8 @@ export default function UploadForm() {
                     p-3 rounded-lg border-2 transition-all cursor-pointer
                     ${
                       provider === p.id
-                        ? "border-primary bg-primary/5 shadow-md"
-                        : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
+                        ? "border-primary bg-primary/5 shadow-md dark:bg-primary/20 dark:border-primary/70"
+                        : "border-gray-200 hover:border-gray-300 hover:bg-gray-50 dark:border-gray-700 dark:hover:border-gray-600 dark:hover:bg-gray-800/50"
                     }
                   `}
                 >
@@ -340,6 +342,7 @@ export default function UploadForm() {
                         alt={`${p.name} logo`}
                         width={24}
                         height={24}
+                        className="dark:invert dark:brightness-90"
                       />
                     </div>
                     <div>
@@ -352,10 +355,10 @@ export default function UploadForm() {
           </div>
 
           {provider && (
-            <div className="rounded-lg border border-gray-200 p-3 bg-gray-50">
+            <div className="rounded-lg border border-gray-200 dark:border-gray-700 p-3 bg-gray-50 dark:bg-gray-800/50">
               <div className="flex justify-between items-center mb-2">
                 <h3 className="font-medium">Model Selection</h3>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-gray-500 dark:text-gray-400">
                   Select models for different processing tasks
                 </p>
               </div>
@@ -368,7 +371,7 @@ export default function UploadForm() {
                       className="text-sm font-medium flex items-center gap-1.5"
                     >
                       Layout Model
-                      <span className="inline-flex items-center rounded-full bg-blue-100 px-2 py-0.5 text-xs text-blue-800">
+                      <span className="inline-flex items-center rounded-full bg-blue-100 dark:bg-blue-900/50 px-2 py-0.5 text-xs text-blue-800 dark:text-blue-300">
                         Easier task
                       </span>
                     </Label>
@@ -378,7 +381,10 @@ export default function UploadForm() {
                     onValueChange={setLayoutModel}
                     disabled={!provider}
                   >
-                    <SelectTrigger id="layout-model" className="bg-white h-9">
+                    <SelectTrigger
+                      id="layout-model"
+                      className="bg-white dark:bg-slate-800 h-9"
+                    >
                       <SelectValue
                         placeholder={
                           provider
@@ -398,7 +404,7 @@ export default function UploadForm() {
                         ))}
                     </SelectContent>
                   </Select>
-                  <p className="text-xs text-gray-500 mt-1">
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                     For document structure and layout extraction
                   </p>
                 </div>
@@ -410,7 +416,7 @@ export default function UploadForm() {
                       className="text-sm font-medium flex items-center gap-1.5"
                     >
                       Description Model
-                      <span className="inline-flex items-center rounded-full bg-amber-100 px-2 py-0.5 text-xs text-amber-800">
+                      <span className="inline-flex items-center rounded-full bg-amber-100 dark:bg-amber-900/50 px-2 py-0.5 text-xs text-amber-800 dark:text-amber-300">
                         Harder task
                       </span>
                     </Label>
@@ -422,7 +428,7 @@ export default function UploadForm() {
                   >
                     <SelectTrigger
                       id="description-model"
-                      className="bg-white h-9"
+                      className="bg-white dark:bg-slate-800 h-9"
                     >
                       <SelectValue
                         placeholder={
@@ -443,7 +449,7 @@ export default function UploadForm() {
                         ))}
                     </SelectContent>
                   </Select>
-                  <p className="text-xs text-gray-500 mt-1">
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                     For content analysis and understanding
                   </p>
                 </div>

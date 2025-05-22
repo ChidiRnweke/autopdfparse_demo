@@ -128,7 +128,7 @@ export default function PDFViewer({ pdfUrl, pdfData }: PDFViewerProps) {
           <TabsContent value="pdf" className="mt-4">
             <Card>
               <CardContent className="p-4">
-                <div className="aspect-[3/4] bg-gray-100 rounded-md flex items-center justify-center">
+                <div className="aspect-[3/4] bg-gray-100 dark:bg-gray-800 rounded-md flex items-center justify-center">
                   <iframe
                     key={iframeKey}
                     src={`${pdfUrl}#page=${currentPage}`}
@@ -156,7 +156,7 @@ export default function PDFViewer({ pdfUrl, pdfData }: PDFViewerProps) {
                       : "Layout Independent"}
                   </Badge>
                 </div>
-                <div className="bg-gray-50 p-4 rounded-md min-h-[400px] overflow-auto prose prose-sm max-w-none">
+                <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-md min-h-[400px] overflow-auto prose prose-sm dark:prose-invert max-w-none">
                   <ReactMarkdown remarkPlugins={[remarkGfm]}>
                     {currentPageData.extractedText}
                   </ReactMarkdown>
@@ -170,7 +170,7 @@ export default function PDFViewer({ pdfUrl, pdfData }: PDFViewerProps) {
           <Card>
             <CardContent className="p-4">
               <h3 className="text-lg font-medium mb-2">PDF Document</h3>
-              <div className="aspect-[3/4] bg-gray-100 rounded-md flex items-center justify-center">
+              <div className="aspect-[3/4] bg-gray-100 dark:bg-gray-800 rounded-md flex items-center justify-center">
                 <iframe
                   key={iframeKey}
                   src={`${pdfUrl}#page=${currentPage}`}
@@ -197,7 +197,7 @@ export default function PDFViewer({ pdfUrl, pdfData }: PDFViewerProps) {
                     : "Layout Independent"}
                 </Badge>
               </div>
-              <div className="bg-gray-50 p-4 rounded-md min-h-[400px] overflow-auto prose prose-sm max-w-none">
+              <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-md min-h-[400px] overflow-auto prose prose-sm dark:prose-invert max-w-none">
                 <ReactMarkdown remarkPlugins={[remarkGfm]}>
                   {currentPageData.extractedText}
                 </ReactMarkdown>
